@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alev & Ahmet Davetiye</title>
+    <style>
+        /* Genel Sayfa Ayarları */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f7f4f0; /* Görsellerin krem tonuyla uyumlu */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 500px; /* Mobil uyumlu genişlik */
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Görsellerin tam sığması için */
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0;
+        }
+
+        /* İnteraktif Buton Alanı */
+        .actions {
+            background-color: #ffffff;
+            padding: 30px 20px;
+            text-align: center;
+            border-top: 1px solid #e0d5c1;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #8a7352; /* Davetiyedeki yazı tonu */
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-family: 'Georgia', serif;
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background-color: #6b5a41;
+        }
+
+        /* Hafif bir geçiş efekti */
+        .fade-in {
+            animation: fadeIn 2s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container fade-in">
+        <img src="1.png" alt="Alev & Ahmet Kapak">
+
+        <img src="3.png" alt="Davetiye Detay">
+
+        <div class="actions">
+            <p style="font-family: 'Georgia', serif; color: #8a7352; margin-bottom: 20px;">
+                Bize katılmanızdan onur duyarız.
+            </p>
+            <a href="https://maps.app.goo.gl/BeypazariAsBalikcilik" target="_blank" class="btn">
+                📍 Konum / Yol Tarifi
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
