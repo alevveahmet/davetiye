@@ -3,83 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Alev & Ahmet Davetiye</title>
-    <meta name="description" content="Mutluluğumuza ortak olmanızdan onur duyarız.">
 
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://alevveahmet.github.io/davetiye/">
     <meta property="og:title" content="Alev & Ahmet Davetiye">
-    <meta property="og:description" content="Düğünümüze davetlisiniz! Detaylar için tıklayın.">
-    
-    <meta property="og:image" content="https://alevveahmet.github.io/davetiye/1.jpg?v=20">
-    <meta property="og:image:secure_url" content="https://alevveahmet.github.io/davetiye/1.jpg?v=20">
-    <meta property="og:image:type" content="image/jpg">
+    <meta property="og:description" content="Mutluluğumuza ortak olmanız dileğiyle...">
+    <meta property="og:image" content="https://alevveahmet.github.io/davetiye/1.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
 
     <style>
-        body { 
-            margin: 0; padding: 0; background-color: #fdfaf6; 
-            font-family: 'Georgia', serif; overflow-x: hidden; 
-        }
-        .container { max-width: 500px; margin: 0 auto; background: #fff; }
-
-        .img-wrapper { 
-            width: 100%; min-height: 400px; 
-            overflow: hidden; line-height: 0; background-color: #fdfaf6;
-        }
-        
-        img { 
-            width: 100%; height: auto; display: block;
-            opacity: 0; 
-            filter: blur(20px); 
-            transform: scale(1.1); 
-            transition: all 2s cubic-bezier(0.4, 0, 0.2, 1); 
-        }
-
-        img.is-visible { 
-            opacity: 1; 
-            filter: blur(0); 
-            transform: scale(1); 
-        }
-
+        body { margin: 0; background: #fdfaf6; font-family: 'Georgia', serif; }
+        .container { max-width: 500px; margin: 0 auto; background: #fff; position: relative; }
+        .img-wrapper { width: 100%; min-height: 400px; overflow: hidden; line-height: 0; }
+        img { width: 100%; height: auto; opacity: 0; filter: blur(20px); transition: 2s all ease; }
+        img.is-visible { opacity: 1; filter: blur(0); }
         .footer { padding: 60px 20px; text-align: center; }
-        
-        .btn-konum {
-            display: inline-block; padding: 18px 45px; 
-            border: 1px solid #8a7352; color: #8a7352;
-            text-decoration: none; border-radius: 2px;
-            font-size: 14px; letter-spacing: 3px; text-transform: uppercase;
-            transition: 0.4s;
-        }
+        .btn { display: inline-block; padding: 18px 45px; border: 1px solid #8a7352; color: #8a7352; text-decoration: none; letter-spacing: 2px; }
 
-        .btn-konum:hover { background: #8a7352; color: #fff; }
+        /* MÜZİK BUTONU STİLİ */
+        #music-control {
+            position: fixed; bottom: 20px; right: 20px;
+            width: 45px; height: 45px; border-radius: 50%;
+            background: rgba(138, 115, 82, 0.8); color: white;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 1000; border: none; font-size: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            animation: rotate 4s linear infinite;
+            animation-play-state: paused;
+        }
+        #music-control.playing { animation-play-state: running; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
+    <audio id="myAudio" loop>
+        <source src="muzik.mp3" type="audio/mpeg">
+    </audio>
+
+    <button id="music-control" onclick="toggleMusic()">🎵</button>
+
     <div class="container">
         <div class="img-wrapper"><img src="1.jpg"></div>
-        <div class="img-wrapper"><img src="2.jpg"></div>
-
+        <div class="img-wrapper"><img src="2.png"></div>
         <div class="footer">
-            <p style="font-style: italic; color: #a5937d; margin-bottom: 25px;">"Bir ömür boyu el ele..."</p>
-            <a href="https://maps.app.goo.gl/zV8h8c9HHJ3DePx56" target="_blank" class="btn-konum">ADRESİ GÖRÜNTÜLE</a>
-            <p style="margin-top: 40px; font-size: 11px; color: #ccc;">ALEV & AHMET</p>
+            <a href="https://maps.app.goo.gl/zV8h8c9HHJ3DePx56" target="_blank" class="btn">ADRESİ GÖRÜNTÜLE</a>
         </div>
     </div>
 
     <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                }
-            });
-        }, { threshold: 0.15 });
+        // MÜZİK KONTROLÜ
+        const audio = document.getElementById("myAudio");
+        const btn = document.getElementById("music-control");
 
-        document.querySelectorAll('img').forEach(img => observer.observe(img));
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                btn.classList.add("playing");
+                btn.innerText = "🎶";
+            } else {
+                audio.pause();
+                btn.classList.remove("playing");
+                btn.innerText = "🎵";
+            }
+        }
+
+        // İlk etkileşimde (kaydırma veya tıklama) müziği başlatmayı dener (Bazı tarayıcılar için)
+        document.body.addEventListener('click', function() {
+            if (audio.paused && !btn.classList.contains('manual-stop')) {
+                // opsiyonel: buraya otomatik başlatma kodu eklenebilir ama buton en güvenlisidir.
+            }
+        }, { once: true });
+
+        // GÖRSEL NETLEŞME EFEKTİ
+        const obs = new IntersectionObserver((es) => {
+            es.forEach(e => { if(e.isIntersecting) e.target.classList.add('is-visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('img').forEach(i => obs.observe(i));
     </script>
 </body>
 </html>
