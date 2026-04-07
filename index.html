@@ -15,23 +15,42 @@
 
     <style>
         body { margin: 0; background: #fdfaf6; font-family: 'Georgia', serif; }
-        .container { max-width: 500px; margin: 0 auto; background: #fff; position: relative; }
+        .container { max-width: 500px; margin: 0 auto; background: #fff; position: relative; box-shadow: 0 0 20px rgba(0,0,0,0.05); }
         .img-wrapper { width: 100%; min-height: 400px; overflow: hidden; line-height: 0; }
-        img { width: 100%; height: auto; opacity: 0; filter: blur(20px); transition: 2s all ease; }
+        img { width: 100%; height: auto; display: block; opacity: 0; filter: blur(20px); transition: 2s all ease; }
         img.is-visible { opacity: 1; filter: blur(0); }
-        .footer { padding: 60px 20px; text-align: center; }
-        .btn { display: inline-block; padding: 18px 45px; border: 1px solid #8a7352; color: #8a7352; text-decoration: none; letter-spacing: 2px; }
+        
+        .footer { padding: 40px 20px 60px; text-align: center; }
+        
+        /* HARİTA STİLİ */
+        .map-container {
+            width: 90%;
+            margin: 30px auto;
+            height: 250px;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #e0dcd5;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        iframe { width: 100%; height: 100%; border: none; }
 
-        /* MÜZİK BUTONU STİLİ */
+        .btn { 
+            display: inline-block; padding: 18px 45px; 
+            border: 1px solid #8a7352; color: #8a7352; 
+            text-decoration: none; letter-spacing: 2px; 
+            text-transform: uppercase; font-size: 13px;
+            transition: 0.4s;
+        }
+        .btn:hover { background: #8a7352; color: #fff; }
+
+        /* MÜZİK BUTONU */
         #music-control {
             position: fixed; bottom: 20px; right: 20px;
             width: 45px; height: 45px; border-radius: 50%;
             background: rgba(138, 115, 82, 0.8); color: white;
             display: flex; align-items: center; justify-content: center;
             cursor: pointer; z-index: 1000; border: none; font-size: 20px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            animation: rotate 4s linear infinite;
-            animation-play-state: paused;
+            animation: rotate 4s linear infinite; animation-play-state: paused;
         }
         #music-control.playing { animation-play-state: running; }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -39,45 +58,37 @@
 </head>
 <body>
 
-    <audio id="myAudio" loop>
-        <source src="muzik.mp3" type="audio/mpeg">
-    </audio>
-
+    <audio id="myAudio" loop><source src="muzik.mp3" type="audio/mpeg"></audio>
     <button id="music-control" onclick="toggleMusic()">🎵</button>
 
     <div class="container">
         <div class="img-wrapper"><img src="1.jpg"></div>
         <div class="img-wrapper"><img src="2.png"></div>
+
         <div class="footer">
-            <a href="https://maps.app.goo.gl/zV8h8c9HHJ3DePx56" target="_blank" class="btn">ADRESİ GÖRÜNTÜLE</a>
+            <p style="font-style: italic; color: #a5937d; margin-bottom: 10px;">Düğün Konumu</p>
+            
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3007.828469315332!2d28.984789276563643!3d41.06077797134316!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab711ab3ac0c3%3A0x23dd3550bb2b0fbf!2sErdem%20Davetiye!5e0!3m2!1str!2str!4v1715000000000!5m2!1str!2str" 
+                    allowfullscreen="" loading="lazy">
+                </iframe>
+            </div>
+
+            <a href="https://maps.google.com/?cid=2584280382034350015&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ" target="_blank" class="btn">NAVİGASYONDA AÇ</a>
+            
+            <p style="margin-top: 40px; font-size: 11px; letter-spacing: 2px; color: #ccc;">ALEV & AHMET</p>
         </div>
     </div>
 
     <script>
-        // MÜZİK KONTROLÜ
+        // Müzik ve Görsel Fonksiyonları
         const audio = document.getElementById("myAudio");
         const btn = document.getElementById("music-control");
-
         function toggleMusic() {
-            if (audio.paused) {
-                audio.play();
-                btn.classList.add("playing");
-                btn.innerText = "🎶";
-            } else {
-                audio.pause();
-                btn.classList.remove("playing");
-                btn.innerText = "🎵";
-            }
+            if (audio.paused) { audio.play(); btn.classList.add("playing"); btn.innerText = "🎶"; }
+            else { audio.pause(); btn.classList.remove("playing"); btn.innerText = "🎵"; }
         }
-
-        // İlk etkileşimde (kaydırma veya tıklama) müziği başlatmayı dener (Bazı tarayıcılar için)
-        document.body.addEventListener('click', function() {
-            if (audio.paused && !btn.classList.contains('manual-stop')) {
-                // opsiyonel: buraya otomatik başlatma kodu eklenebilir ama buton en güvenlisidir.
-            }
-        }, { once: true });
-
-        // GÖRSEL NETLEŞME EFEKTİ
         const obs = new IntersectionObserver((es) => {
             es.forEach(e => { if(e.isIntersecting) e.target.classList.add('is-visible'); });
         }, { threshold: 0.1 });
