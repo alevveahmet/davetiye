@@ -3,41 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Alev & Ahmet Davetiye</title>
+    <meta property="og:title" content="Alev & Ahmet Davetiye">
+    <meta property="og:description" content="Mutluluğumuza ortak olmanızdan onur duyarız.">
+    <meta property="og:image" content="https://alevveahmet.github.io/davetiye/1.png">
+    <meta property="og:url" content="https://alevveahmet.github.io/davetiye/">
+    <meta property="og:type" content="website">
+
     <style>
-        /* TASARIM AYARLARI */
+        /* TASARIM VE ESTETİK */
         body { 
             margin: 0; padding: 0; background-color: #fdfaf6; 
             font-family: 'Georgia', serif; overflow-x: hidden; 
         }
-        .container { max-width: 500px; margin: 0 auto; background: #fff; }
+        .container { max-width: 500px; margin: 0 auto; background: #fff; box-shadow: 0 0 30px rgba(0,0,0,0.02); }
 
-        /* SİNEMATİK NETLEŞME VE KAYDIRDIKÇA BELİRME */
+        /* SİNEMATİK KAYDIR-YÜKLE (LAZY REVEAL) EFEKTİ */
         .img-wrapper { 
-            width: 100%; min-height: 400px; /* Kaydırma alanı oluşması için */
-            overflow: hidden; line-height: 0; 
+            width: 100%; min-height: 450px; /* Kaydırma alanı için */
+            overflow: hidden; line-height: 0; background-color: #fdfaf6;
         }
         
         img { 
             width: 100%; height: auto; display: block;
-            opacity: 0; /* Başta görünmez */
-            filter: blur(15px); /* Başta çok bulanık */
-            transform: scale(1.08); /* Hafif büyük başlar */
-            transition: all 1.8s cubic-bezier(0.4, 0, 0.2, 1); /* Yumuşak geçiş */
+            opacity: 0; 
+            filter: blur(20px); 
+            transform: scale(1.1); 
+            transition: all 2s cubic-bezier(0.4, 0, 0.2, 1); 
         }
 
-        /* Görsel ekrana girince tetiklenecek efekt */
+        /* Görsel ekrana girince tetiklenecek sınıf */
         img.is-visible { 
             opacity: 1; 
             filter: blur(0); 
             transform: scale(1); 
         }
 
-        /* ALT KISIM VE BUTON */
-        .footer { padding: 50px 20px; text-align: center; background-color: #fff; }
+        /* ALT KISIM VE KONUM BUTONU */
+        .footer { padding: 60px 20px; text-align: center; background-color: #fff; }
         
         .btn-konum {
-            display: inline-block; padding: 16px 45px; 
+            display: inline-block; padding: 18px 45px; 
             border: 1px solid #8a7352; color: #8a7352;
             text-decoration: none; border-radius: 2px;
             font-size: 14px; letter-spacing: 3px; text-transform: uppercase;
@@ -73,10 +80,10 @@
     </div>
 
     <script>
-        /* KAYDIRDIKÇA YÜKLENME MANTIĞI */
+        /* KAYDIRDIKÇA BELİRME MANTIĞI */
         const observerOptions = {
             root: null,
-            threshold: 0.15 // Görselin %15'i göründüğünde animasyon başlar
+            threshold: 0.15 
         };
 
         const observer = new IntersectionObserver((entries, observer) => {
@@ -84,12 +91,11 @@
                 if (entry.isIntersecting) {
                     const img = entry.target;
                     img.classList.add('is-visible');
-                    observer.unobserve(img); // Performans için takibi bırakır
+                    observer.unobserve(img); 
                 }
             });
         }, observerOptions);
 
-        // Sayfadaki 2 görseli de takibe al
         document.querySelectorAll('img').forEach(img => {
             observer.observe(img);
         });
