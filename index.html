@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alev & Ahmet</title>
+    <title>Alev & Ahmet Davetiye</title>
     <style>
-        /* GENEL SAYFA AYARLARI */
+        /* TASARIM AYARLARI */
         body { 
             margin: 0; padding: 0; background-color: #fdfaf6; 
             font-family: 'Georgia', serif; overflow-x: hidden; 
         }
         .container { max-width: 500px; margin: 0 auto; background: #fff; }
 
-        /* GÖRSELLERİN BAŞLANGIÇ HALİ (GİZLİ VE BULANIK) */
+        /* SİNEMATİK NETLEŞME VE KAYDIRDIKÇA BELİRME */
         .img-wrapper { 
-            width: 100%; min-height: 300px; /* Görsel yüklenmeden önce yer kaplasın diye */
+            width: 100%; min-height: 400px; /* Kaydırma alanı oluşması için */
             overflow: hidden; line-height: 0; 
         }
         
@@ -22,54 +22,61 @@
             width: 100%; height: auto; display: block;
             opacity: 0; /* Başta görünmez */
             filter: blur(15px); /* Başta çok bulanık */
-            transform: scale(1.1); /* Hafif büyük başlar */
-            transition: all 1.8s cubic-bezier(0.4, 0, 0.2, 1); /* Çok yumuşak geçiş */
+            transform: scale(1.08); /* Hafif büyük başlar */
+            transition: all 1.8s cubic-bezier(0.4, 0, 0.2, 1); /* Yumuşak geçiş */
         }
 
-        /* GÖRSEL EKRANA GİRİNCE TETİKLENECEK EFEKT */
+        /* Görsel ekrana girince tetiklenecek efekt */
         img.is-visible { 
             opacity: 1; 
             filter: blur(0); 
             transform: scale(1); 
         }
 
-        /* ALT KISIM */
-        .footer { padding: 60px 20px; text-align: center; }
+        /* ALT KISIM VE BUTON */
+        .footer { padding: 50px 20px; text-align: center; background-color: #fff; }
+        
         .btn-konum {
-            display: inline-block; padding: 16px 40px; 
+            display: inline-block; padding: 16px 45px; 
             border: 1px solid #8a7352; color: #8a7352;
             text-decoration: none; border-radius: 2px;
             font-size: 14px; letter-spacing: 3px; text-transform: uppercase;
             transition: 0.4s;
+            box-shadow: 0 4px 15px rgba(138, 115, 82, 0.1);
         }
+
         .btn-konum:hover { background: #8a7352; color: #fff; }
+
+        .note { font-style: italic; color: #a5937d; margin-bottom: 25px; font-size: 16px; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <div class="img-wrapper">
-            <img src="1.png" alt="Alev & Ahmet">
+            <img src="1.png" alt="Alev & Ahmet Kapak">
         </div>
 
         <div class="img-wrapper">
-            <img src="3.png" alt="Nikah Detay">
+            <img src="2.png" alt="Davetiye Bilgileri">
         </div>
 
         <div class="footer">
-            <p style="font-style: italic; color: #a5937d; margin-bottom: 30px;">"Bir ömür boyu mutluluğa..."</p>
-            <a href="BURAYA_HARITA_LINKINI_YAPISTIR" target="_blank" class="btn-konum">ADRESİ GÖRÜNTÜLE</a>
-            <p style="margin-top: 40px; font-size: 11px; color: #ccc;">ALEV & AHMET</p>
+            <p class="note">"Bir ömür boyu el ele..."</p>
+            
+            <a href="https://maps.app.goo.gl/zV8h8c9HHJ3DePx56" target="_blank" class="btn-konum">
+                ADRESİ GÖRÜNTÜLE
+            </a>
+            
+            <p style="margin-top: 40px; font-size: 11px; letter-spacing: 2px; color: #ccc;">ALEV & AHMET</p>
         </div>
     </div>
 
     <script>
-        // ANALİST NOTU: Intersection Observer MANTIĞI
-        // Bu kod, tarayıcıya "Görselin %20'si ekrana girdiğinde animasyonu başlat" talimatı verir.
-        
+        /* KAYDIRDIKÇA YÜKLENME MANTIĞI */
         const observerOptions = {
             root: null,
-            threshold: 0.2 // Görselin ne kadarı göründüğünde başlasın (0.2 = %20)
+            threshold: 0.15 // Görselin %15'i göründüğünde animasyon başlar
         };
 
         const observer = new IntersectionObserver((entries, observer) => {
@@ -77,12 +84,12 @@
                 if (entry.isIntersecting) {
                     const img = entry.target;
                     img.classList.add('is-visible');
-                    observer.unobserve(img); // Animasyon bir kez çalıştıktan sonra takibi bırak (performans için)
+                    observer.unobserve(img); // Performans için takibi bırakır
                 }
             });
         }, observerOptions);
 
-        // Sayfadaki tüm img etiketlerini takibe al
+        // Sayfadaki 2 görseli de takibe al
         document.querySelectorAll('img').forEach(img => {
             observer.observe(img);
         });
