@@ -5,101 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alev & Ahmet</title>
     <style>
-        /* GENEL ESTETİK */
+        /* GENEL SAYFA TASARIMI */
         body { 
-            margin: 0; padding: 0; background-color: #1a1a1a; /* Arka planı koyu yaparak görselleri patlatıyoruz */
-            font-family: 'Optima', 'Georgia', serif; overflow-x: hidden; 
+            margin: 0; padding: 0; background-color: #fcfbf8; 
+            font-family: 'Georgia', serif; overflow-x: hidden; 
         }
+        .container { max-width: 500px; margin: 0 auto; background: #fff; box-shadow: 0 0 20px rgba(0,0,0,0.05); }
 
-        .container { max-width: 500px; margin: 0 auto; background: #fff; position: relative; }
-
-        /* SİNEMATİK ZOOM VE NETLEŞME ANİMASYONU */
-        .image-wrapper { 
-            overflow: hidden; width: 100%; position: relative; line-height: 0;
-        }
-
+        /* SİNEMATİK NETLEŞME VE ODAKLANMA ANİMASYONU */
+        .img-box { overflow: hidden; width: 100%; line-height: 0; }
+        
         img { 
             width: 100%; height: auto; display: block;
-            filter: blur(10px) brightness(0.8); /* Başlangıçta hafif bulanık ve koyu */
-            transform: scale(1.1); /* Hafif büyük başlar */
-            transition: all 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Çok yumuşak geçiş */
+            filter: blur(10px); /* Başlangıçta bulanık */
+            opacity: 0; /* Başlangıçta görünmez */
+            transform: scale(1.1); /* Başlangıçta hafif büyük */
+            transition: filter 2s ease, opacity 2s ease, transform 2.5s ease-out; 
         }
 
-        /* Görsel ekrana girince tetiklenecek sınıf */
+        /* Ekrana girdiğinde çalışacak animasyon ayarları */
         img.visible { 
-            filter: blur(0) brightness(1); 
-            transform: scale(1); /* Orijinal boyuta yavaşça iner (Ken Burns) */
+            filter: blur(0); 
+            opacity: 1; 
+            transform: scale(1); /* Orijinal boyutuna yavaşça iner */
         }
 
-        /* PARILTI EFEKTİ (Arka planda uçuşan simler) */
-        .sparkles {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 10;
-            background-image: radial-gradient(circle, rgba(212, 175, 55, 0.15) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: moveSparkles 20s linear infinite;
-        }
-
-        @keyframes moveSparkles {
-            from { transform: translateY(0); }
-            to { transform: translateY(-500px); }
-        }
-
-        /* KONUM BUTONU: MINIMAL VE ZARIF */
-        .footer { padding: 50px 20px; text-align: center; background: #fff; position: relative; }
+        /* ALT KISIM VE KONUM BUTONU */
+        .footer { padding: 60px 20px; text-align: center; background-color: #fff; }
         
         .btn-konum {
-            display: inline-block; padding: 15px 40px; 
+            display: inline-block; padding: 16px 40px; 
             border: 1px solid #8a7352; color: #8a7352;
-            text-decoration: none; border-radius: 2px; /* Keskin köşeler daha modern durur */
+            text-decoration: none; border-radius: 2px;
             font-size: 14px; letter-spacing: 3px; text-transform: uppercase;
-            transition: 0.5s;
+            transition: 0.4s;
         }
 
-        .btn-konum:hover {
-            background: #8a7352; color: #fff;
-        }
+        .btn-konum:hover { background: #8a7352; color: #fff; }
 
-        .quote {
-            font-style: italic; color: #a5937d; margin-bottom: 30px; font-size: 15px;
-        }
+        .note { font-style: italic; color: #a5937d; margin-bottom: 30px; font-size: 15px; }
     </style>
 </head>
 <body>
 
-    <div class="sparkles"></div> <div class="container">
-        <div class="image-wrapper">
-            <img src="1.png" alt="Alev & Ahmet" class="reveal">
-        </div>
-
-        <div class="image-wrapper">
-            <img src="2.png" alt="Düğün Detay" class="reveal">
-        </div>
-
-        <div class="image-wrapper">
-            <img src="3.png" alt="Nikah Detay" class="reveal">
-        </div>
+    <div class="container">
+        <div class="img-box"><img src="1.png" class="reveal"></div>
+        <div class="img-box"><img src="2.png" class="reveal"></div>
+        <div class="img-box"><img src="3.png" class="reveal"></div>
 
         <div class="footer">
-            <p class="quote">“Sevgi, birlikte aynı yöne bakmaktır.”</p>
+            <p class="note">"Bir ömür boyu el ele..."</p>
             
-            <a href="https://maps.app.goo.gl/BURAYA_LINKI_EKLE" target="_blank" class="btn-konum">
+            <a href="https://maps.app.goo.gl/BeypazariAsBalikcilik" target="_blank" class="btn-konum">
                 ADRESİ GÖRÜNTÜLE
             </a>
             
-            <p style="margin-top: 40px; font-size: 12px; color: #ccc;">Alev & Ahmet</p>
+            <p style="margin-top: 40px; font-size: 11px; letter-spacing: 2px; color: #ccc;">ALEV & AHMET</p>
         </div>
     </div>
 
     <script>
-        // Görsellerin ekrana girince sinematik şekilde netleşmesi
+        // Görseller ekrana gelince animasyonu başlatan kod
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
-        }, { threshold: 0.2 });
+        }, { threshold: 0.1 });
 
         document.querySelectorAll('img').forEach(img => observer.observe(img));
     </script>
