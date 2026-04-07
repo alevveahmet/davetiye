@@ -5,34 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alev & Ahmet</title>
     <style>
-        /* GENEL SAYFA TASARIMI */
+        /* GENEL SAYFA AYARLARI */
         body { 
-            margin: 0; padding: 0; background-color: #fcfbf8; 
+            margin: 0; padding: 0; background-color: #fdfaf6; 
             font-family: 'Georgia', serif; overflow-x: hidden; 
         }
-        .container { max-width: 500px; margin: 0 auto; background: #fff; box-shadow: 0 0 20px rgba(0,0,0,0.05); }
+        .container { max-width: 500px; margin: 0 auto; background: #fff; }
 
-        /* SİNEMATİK NETLEŞME VE ODAKLANMA ANİMASYONU */
-        .img-box { overflow: hidden; width: 100%; line-height: 0; }
+        /* GÖRSELLERİN BAŞLANGIÇ HALİ (GİZLİ VE BULANIK) */
+        .img-wrapper { 
+            width: 100%; min-height: 300px; /* Görsel yüklenmeden önce yer kaplasın diye */
+            overflow: hidden; line-height: 0; 
+        }
         
         img { 
             width: 100%; height: auto; display: block;
-            filter: blur(10px); /* Başlangıçta bulanık */
-            opacity: 0; /* Başlangıçta görünmez */
-            transform: scale(1.1); /* Başlangıçta hafif büyük */
-            transition: filter 2s ease, opacity 2s ease, transform 2.5s ease-out; 
+            opacity: 0; /* Başta görünmez */
+            filter: blur(15px); /* Başta çok bulanık */
+            transform: scale(1.1); /* Hafif büyük başlar */
+            transition: all 1.8s cubic-bezier(0.4, 0, 0.2, 1); /* Çok yumuşak geçiş */
         }
 
-        /* Ekrana girdiğinde çalışacak animasyon ayarları */
-        img.visible { 
-            filter: blur(0); 
+        /* GÖRSEL EKRANA GİRİNCE TETİKLENECEK EFEKT */
+        img.is-visible { 
             opacity: 1; 
-            transform: scale(1); /* Orijinal boyutuna yavaşça iner */
+            filter: blur(0); 
+            transform: scale(1); 
         }
 
-        /* ALT KISIM VE KONUM BUTONU */
-        .footer { padding: 60px 20px; text-align: center; background-color: #fff; }
-        
+        /* ALT KISIM */
+        .footer { padding: 60px 20px; text-align: center; }
         .btn-konum {
             display: inline-block; padding: 16px 40px; 
             border: 1px solid #8a7352; color: #8a7352;
@@ -40,41 +42,54 @@
             font-size: 14px; letter-spacing: 3px; text-transform: uppercase;
             transition: 0.4s;
         }
-
         .btn-konum:hover { background: #8a7352; color: #fff; }
-
-        .note { font-style: italic; color: #a5937d; margin-bottom: 30px; font-size: 15px; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="img-box"><img src="1.png" class="reveal"></div>
-        <div class="img-box"><img src="2.png" class="reveal"></div>
-        <div class="img-box"><img src="3.png" class="reveal"></div>
+        <div class="img-wrapper">
+            <img src="1.png" alt="Alev & Ahmet">
+        </div>
+
+        <div class="img-wrapper">
+            <img src="2.png" alt="Düğün Detay">
+        </div>
+
+        <div class="img-wrapper">
+            <img src="3.png" alt="Nikah Detay">
+        </div>
 
         <div class="footer">
-            <p class="note">"Bir ömür boyu el ele..."</p>
-            
-            <a href="https://maps.app.goo.gl/BeypazariAsBalikcilik" target="_blank" class="btn-konum">
-                ADRESİ GÖRÜNTÜLE
-            </a>
-            
-            <p style="margin-top: 40px; font-size: 11px; letter-spacing: 2px; color: #ccc;">ALEV & AHMET</p>
+            <p style="font-style: italic; color: #a5937d; margin-bottom: 30px;">"Bir ömür boyu mutluluğa..."</p>
+            <a href="BURAYA_HARITA_LINKINI_YAPISTIR" target="_blank" class="btn-konum">ADRESİ GÖRÜNTÜLE</a>
+            <p style="margin-top: 40px; font-size: 11px; color: #ccc;">ALEV & AHMET</p>
         </div>
     </div>
 
     <script>
-        // Görseller ekrana gelince animasyonu başlatan kod
-        const observer = new IntersectionObserver((entries) => {
+        // ANALİST NOTU: Intersection Observer MANTIĞI
+        // Bu kod, tarayıcıya "Görselin %20'si ekrana girdiğinde animasyonu başlat" talimatı verir.
+        
+        const observerOptions = {
+            root: null,
+            threshold: 0.2 // Görselin ne kadarı göründüğünde başlasın (0.2 = %20)
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                    const img = entry.target;
+                    img.classList.add('is-visible');
+                    observer.unobserve(img); // Animasyon bir kez çalıştıktan sonra takibi bırak (performans için)
                 }
             });
-        }, { threshold: 0.1 });
+        }, observerOptions);
 
-        document.querySelectorAll('img').forEach(img => observer.observe(img));
+        // Sayfadaki tüm img etiketlerini takibe al
+        document.querySelectorAll('img').forEach(img => {
+            observer.observe(img);
+        });
     </script>
 </body>
 </html>
