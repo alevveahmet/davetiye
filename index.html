@@ -10,103 +10,98 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://alevveahmet.github.io/davetiye/">
     <meta property="og:title" content="Alev & Ahmet Davetiye">
-    <meta property="og:description" content="Düğünümüze davetlisiniz! Detaylar için tıklayın.">
-    
+    <meta property="og:description" content="Mutluluğumuza ortak olmanızdan onur duyarız.">
     <meta property="og:image" content="https://alevveahmet.github.io/davetiye/1.jpg">
     <meta property="og:image:secure_url" content="https://alevveahmet.github.io/davetiye/1.jpg">
     <meta property="og:image:type" content="image/jpeg">
-    
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
 
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Alev & Ahmet Davetiye">
+    <meta name="twitter:description" content="Düğünümüze davetlisiniz!">
+    <meta name="twitter:image" content="https://alevveahmet.github.io/davetiye/1.jpg">
+
     <style>
-        /* TASARIM VE ESTETİK */
-        body { 
-            margin: 0; padding: 0; background-color: #fdfaf6; 
-            font-family: 'Georgia', serif; overflow-x: hidden; 
-        }
-        .container { max-width: 500px; margin: 0 auto; background: #fff; box-shadow: 0 0 30px rgba(0,0,0,0.02); }
+        body { margin: 0; padding: 0; background-color: #fdfaf6; font-family: 'Georgia', serif; overflow-x: hidden; }
+        .container { max-width: 500px; margin: 0 auto; background: #fff; box-shadow: 0 0 30px rgba(0,0,0,0.05); }
 
-        /* SİNEMATİK KAYDIR-YÜKLE (LAZY REVEAL) EFEKTİ */
-        .img-wrapper { 
-            width: 100%; min-height: 450px; 
-            overflow: hidden; line-height: 0; background-color: #fdfaf6;
-        }
-        
-        img { 
-            width: 100%; height: auto; display: block;
-            opacity: 0; 
-            filter: blur(20px); 
-            transform: scale(1.1); 
-            transition: all 2s cubic-bezier(0.4, 0, 0.2, 1); 
-        }
+        .img-wrapper { width: 100%; min-height: 450px; overflow: hidden; line-height: 0; background-color: #fdfaf6; }
+        img { width: 100%; height: auto; display: block; opacity: 0; filter: blur(20px); transform: scale(1.1); transition: all 2s cubic-bezier(0.4, 0, 0.2, 1); }
+        img.is-visible { opacity: 1; filter: blur(0); transform: scale(1); }
 
-        /* Görsel ekrana girince tetiklenecek sınıf */
-        img.is-visible { 
-            opacity: 1; 
-            filter: blur(0); 
-            transform: scale(1); 
-        }
+        /* GERİ SAYIM */
+        .countdown-section { padding: 40px 20px; text-align: center; background: #fff; border-top: 1px dashed #eee; }
+        .countdown-title { color: #8a7352; font-style: italic; font-size: 18px; margin-bottom: 20px; }
+        .countdown-timer { display: flex; justify-content: center; gap: 10px; }
+        .time-box { background: #fdfaf6; padding: 10px; border-radius: 8px; min-width: 60px; border: 1px solid #f2ede4; }
+        .time-number { display: block; font-size: 22px; color: #8a7352; font-weight: bold; }
+        .time-label { font-size: 10px; color: #a5937d; text-transform: uppercase; }
 
-        /* ALT KISIM VE KONUM BUTONU */
-        .footer { padding: 60px 20px; text-align: center; background-color: #fff; }
-        
-        .btn-konum {
-            display: inline-block; padding: 18px 45px; 
-            border: 1px solid #8a7352; color: #8a7352;
-            text-decoration: none; border-radius: 2px;
-            font-size: 14px; letter-spacing: 3px; text-transform: uppercase;
-            transition: 0.4s;
-            box-shadow: 0 4px 15px rgba(138, 115, 82, 0.1);
-        }
+        .footer { padding: 40px 20px 60px; text-align: center; background-color: #fff; }
+        .map-container { width: 90%; margin: 20px auto 30px; height: 250px; border-radius: 12px; overflow: hidden; border: 1px solid #eee; }
+        iframe { width: 100%; height: 100%; border: none; }
 
+        .btn-konum { display: inline-block; padding: 18px 45px; border: 1px solid #8a7352; color: #8a7352; text-decoration: none; border-radius: 2px; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; transition: 0.4s; }
         .btn-konum:hover { background: #8a7352; color: #fff; }
 
-        .note { font-style: italic; color: #a5937d; margin-bottom: 25px; font-size: 16px; }
+        #music-control { position: fixed; bottom: 25px; right: 25px; width: 50px; height: 50px; border-radius: 50%; background: rgba(138, 115, 82, 0.9); color: white; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1000; border: none; font-size: 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="img-wrapper">
-            <img src="1.jpg" alt="Alev & Ahmet Kapak">
-        </div>
+    <audio id="myAudio" loop><source src="muzik.mp3" type="audio/mpeg"></audio>
+    <button id="music-control" onclick="toggleMusic()">🎵</button>
 
-        <div class="img-wrapper">
-            <img src="2.png" alt="Davetiye Bilgileri">
+    <div class="container">
+        <div class="img-wrapper"><img src="1.jpg" alt="Alev & Ahmet Kapak"></div>
+        <div class="img-wrapper"><img src="2.jpg" alt="Davetiye Bilgileri"></div>
+
+        <div class="countdown-section">
+            <div class="countdown-title">Mutluluğa Kalan Zaman</div>
+            <div class="countdown-timer" id="timer">
+                <div class="time-box"><span class="time-number" id="days">00</span><span class="time-label">Gün</span></div>
+                <div class="time-box"><span class="time-number" id="hours">00</span><span class="time-label">Saat</span></div>
+                <div class="time-box"><span class="time-number" id="minutes">00</span><span class="time-label">Dakika</span></div>
+                <div class="time-box"><span class="time-number" id="seconds">00</span><span class="time-label">Saniye</span></div>
+            </div>
         </div>
 
         <div class="footer">
-            <p class="note">"Bir ömür boyu el ele..."</p>
-            
-            <a href="https://maps.app.goo.gl/zV8h8c9HHJ3DePx56" target="_blank" class="btn-konum">
-                ADRESİ GÖRÜNTÜLE
-            </a>
-            
-            <p style="margin-top: 40px; font-size: 11px; letter-spacing: 2px; color: #ccc;">ALEV & AHMET</p>
+            <p style="color: #a5937d; font-style: italic; margin-bottom: 20px;">Düğün Konumu</p>
+            <div class="map-container">
+                <iframe src="https://maps.app.goo.gl/zV8h8c9HHJ3DePx56" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <a href="https://maps.google.com/?cid=2584280382034350015&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ" target="_blank" class="btn-konum">NAVİGASYONDA AÇ</a>
+            <p style="margin-top: 50px; font-size: 11px; letter-spacing: 2px; color: #ccc;">ALEV & AHMET</p>
         </div>
     </div>
 
     <script>
-        /* KAYDIRDIKÇA BELİRME MANTIĞI */
-        const observerOptions = {
-            root: null,
-            threshold: 0.15 
-        };
+        // Müzik
+        const audio = document.getElementById("myAudio");
+        const mBtn = document.getElementById("music-control");
+        function toggleMusic() {
+            if (audio.paused) { audio.play(); mBtn.innerText = "🎶"; }
+            else { audio.pause(); mBtn.innerText = "🎵"; }
+        }
 
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    img.classList.add('is-visible');
-                    observer.unobserve(img); 
-                }
-            });
-        }, observerOptions);
+        // Geri Sayım
+        const countdownDate = new Date("Jun 6, 2026 13:00:00").getTime();
+        setInterval(function() {
+            const now = new Date().getTime();
+            const distance = countdownDate - now;
+            document.getElementById("days").innerHTML = Math.floor(distance / (1000 * 60 * 60 * 24));
+            document.getElementById("hours").innerHTML = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            document.getElementById("minutes").innerHTML = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            document.getElementById("seconds").innerHTML = Math.floor((distance % (1000 * 60)) / 1000);
+        }, 1000);
 
-        document.querySelectorAll('img').forEach(img => {
-            observer.observe(img);
-        });
+        // Görseller
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); } });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('img').forEach(img => { observer.observe(img); });
     </script>
 </body>
 </html>
